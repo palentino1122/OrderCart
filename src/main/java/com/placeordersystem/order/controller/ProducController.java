@@ -45,7 +45,7 @@ public class ProducController {
     }
 
     @PutMapping("edit/{id}")
-    public ResponseEntity<Product> putMethodName(@PathVariable Long id, @RequestBody Product entity) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product entity) {
 
         Product product = productService.findById(id);
         if (product == null) {
