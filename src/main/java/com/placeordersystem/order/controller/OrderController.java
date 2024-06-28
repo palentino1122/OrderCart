@@ -1,10 +1,13 @@
 package com.placeordersystem.order.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.placeordersystem.order.dto.ErrorResponse;
 import com.placeordersystem.order.dto.Order;
 import com.placeordersystem.order.dto.Request;
 import com.placeordersystem.order.dto.Response;
@@ -22,30 +25,33 @@ public class OrderController {
     private OrderItemService oderItemService;
 
     @PostMapping("/cart")
-    public ResponseEntity<OrderItem> postMethodName(@RequestBody Order item) {
+    public ResponseEntity<?> orderProduct(@RequestBody Order item) {
         OrderItem orderItem = oderItemService.order(item);
         if (orderItem == null) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse errorResponse = new ErrorResponse("Product Not Found", "404");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
-        return ResponseEntity.ok(orderItem);
+        return ResponseEntity.status(HttpStatus.OK).body(orderItem);
     }
 
     @GetMapping()
-    public ResponseEntity<Response> getMethodName(@RequestBody Request item) {
+    public ResponseEntity<?> orderItem(@RequestBody Request item) {
         Response order = oderItemService.getOrderItem(item.getCustomerName(), item.getAddress(), item.getStatus());
         if (order == null) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse errorResponse = new ErrorResponse("Customer Not Found", "404");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
-        return ResponseEntity.ok(order);
+        return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
     @PostMapping()
-    public ResponseEntity<Response> paidOrder(@RequestBody Request item) {
+    public ResponseEntity<?> paidOrder(@RequestBody Request item) {
         Response order = oderItemService.saveOrder(item.getCustomerName(), item.getStatus());
         if (order == null) {
-            return ResponseEntity.notFound().build();
+            ErrorResponse errorResponse = new ErrorResponse("Customer Not Found", "404");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
-        return ResponseEntity.ok(order);
+        return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
 }
