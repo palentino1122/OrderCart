@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/product")
-public class ProducController {
+public class ProductController {
 
     @Autowired
     private ProductService productService;
@@ -35,7 +35,7 @@ public class ProducController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id) {
+    public ResponseEntity<Product> findById(@PathVariable String id) {
         Product product = productService.findById(id);
         if (product == null) {
             return ResponseEntity.notFound().build();
@@ -45,7 +45,7 @@ public class ProducController {
     }
 
     @PutMapping("edit/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product entity) {
+    public ResponseEntity<Product> updateProduct(@PathVariable String id, @RequestBody Product entity) {
 
         Product product = productService.findById(id);
         if (product == null) {
@@ -59,7 +59,7 @@ public class ProducController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
         Product product = productService.findById(id);
         if (product == null) {
             return ResponseEntity.notFound().build();

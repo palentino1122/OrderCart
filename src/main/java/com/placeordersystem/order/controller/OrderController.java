@@ -26,7 +26,7 @@ public class OrderController {
 
     @PostMapping("/cart")
     public ResponseEntity<?> orderProduct(@RequestBody Order item) {
-        OrderItem orderItem = oderItemService.order(item);
+        OrderItem orderItem = oderItemService.addToCart(item);
         if (orderItem == null) {
             ErrorResponse errorResponse = new ErrorResponse("Product Not Found", "404");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);

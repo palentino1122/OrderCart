@@ -22,7 +22,7 @@ public class OrderItemService {
     @Autowired
     private ProductService productService;
 
-    public OrderItem order(Order order) {
+    public OrderItem addToCart(Order order) {
         Product product = productService.findById(order.getProductId());
         if (product == null) {
             return null;
