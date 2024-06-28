@@ -11,6 +11,7 @@ import com.placeordersystem.order.model.OrderItem;
 import com.placeordersystem.order.model.Product;
 import com.placeordersystem.order.repository.OrderItemRepository;
 
+import jakarta.transaction.Transactional;
 
 @Service
 public class OrderItemService {
@@ -37,37 +38,46 @@ public class OrderItemService {
     }
 
     public Response getOrderItem(String customerName, String address, String status) {
-
         Response response = new Response();
         try {
             List<OrderItem> orderCarts = orderItemRepository.findByCustomerNameAndStatus(customerName, status);
+            if (orderCarts.isEmpty()) {
+                return null;
+            }
+
             double grandTotal = orderItemRepository.sumTotalByCustomerNameAndStatus(customerName, status);
             response.setNamaCustomer(customerName);
             response.setAlamat(address);
             response.setOrderChart(orderCarts);
             response.setGrandTotal(grandTotal);
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException("Error occurred while get order");
         }
 
         return response;
     }
 
+    @Transactional
     public Response saveOrder(String customerName, String status) {
         List<OrderItem> orderCarts = orderItemRepository.findByCustomerNameAndStatus(customerName, status);
         if (orderCarts.isEmpty()) {
             return null;
-
         }
-        double grandTotal = orderItemRepository.sumTotalByCustomerNameAndStatus(customerName, status);
+
         Response response = new Response();
-        orderCarts.forEach(item -> {
-            item.setStatus("paid");
-            orderItemRepository.save(item);
-        });
-        response.setGrandTotal(grandTotal);
-        response.setNamaCustomer(customerName);
-        response.setOrderChart(orderCarts);
+        try {
+            double grandTotal = orderItemRepository.sumTotalByCustomerNameAndStatus(customerName, status);
+
+            orderCarts.forEach(item -> {
+                item.setStatus("paid");
+                orderItemRepository.save(item);
+            });
+            response.setGrandTotal(grandTotal);
+            response.setNamaCustomer(customerName);
+            response.setOrderChart(orderCarts);
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while paid order");
+        }
 
         return response;
     }
