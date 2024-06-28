@@ -12,11 +12,11 @@ import lombok.Data;
 @Table(name = "order_item")
 public class OrderItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String orderId;
     private String customerName;
     private String address;
-    private Long productId;
+    private String productId;
     private int quantity;
     private double total;
     private String status;

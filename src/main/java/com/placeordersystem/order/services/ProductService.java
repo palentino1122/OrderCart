@@ -19,7 +19,7 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
-    public Product findById(Long id) {
+    public Product findById(String id) {
         return productRepository.findById(id).orElse(null);
     }
 
@@ -27,7 +27,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         productRepository.deleteById(id);
     }
 }

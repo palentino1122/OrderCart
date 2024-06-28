@@ -6,6 +6,6 @@ import lombok.Data;
 public class Order {
     private String customerName;
     private String address;
-    private Long productId;
+    private String productId;
     private int quantity;
 }

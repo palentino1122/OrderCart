@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.placeordersystem.order.model.OrderItem;
 
-public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
+public interface OrderItemRepository extends JpaRepository<OrderItem, String> {
 
     OrderItem findByCustomerName(String customer);
 
