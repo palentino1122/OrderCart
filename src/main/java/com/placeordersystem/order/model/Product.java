@@ -3,7 +3,6 @@ package com.placeordersystem.order.model;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import lombok.Data;
